@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-type Section = 'terrain' | 'physics' | 'game-logic' | 'architecture'
+type Section = 'terrain' | 'physics' | 'game-logic' | 'architecture' | 'graphics' | 'ux' | 'roadmap'
 
 function App() {
   const [activeSection, setActiveSection] = useState<Section>('terrain')
@@ -25,8 +25,13 @@ function App() {
       <div className="bg-green-500/5 border-b border-green-500/20">
         <div className="max-w-6xl mx-auto px-6 py-3">
           <p className="text-sm text-green-300">
-            <span className="font-bold text-green-400">STATUS:</span> Recherche abgeschlossen. 
-            Alle Kernmechaniken analysiert und verstanden. Bereit für Programmierbefehle.
+            <span className="font-bold text-green-400">STATUS:</span> Vertiefte Recherche &amp; Planung abgeschlossen
+            (Phaser 3.90.0 verifiziert · Details in{' '}
+            <a href="/docs/PLAN.md" target="_blank" rel="noreferrer" className="underline decoration-green-500/50 hover:text-green-200">docs/PLAN.md</a>
+            {' '}&amp;{' '}
+            <a href="/docs/RESEARCH.md" target="_blank" rel="noreferrer" className="underline decoration-green-500/50 hover:text-green-200">docs/RESEARCH.md</a>).
+            Fokus dieser Runde: <span className="text-green-400 font-semibold">Grafik-Konzept</span> und{' '}
+            <span className="text-green-400 font-semibold">Benutzerfreundlichkeit</span>. Noch kein Spiel-Code — bereit für Freigabe der Meilensteine M0/M1.
           </p>
         </div>
       </div>
@@ -39,6 +44,9 @@ function App() {
             { id: 'physics' as Section, label: '⚙️ Matter.js Physik', color: 'blue' },
             { id: 'game-logic' as Section, label: '🎮 Spiel-Logik & Kamera', color: 'purple' },
             { id: 'architecture' as Section, label: '🏗️ Gesamtarchitektur', color: 'green' },
+            { id: 'graphics' as Section, label: '🎨 Grafik-Konzept', color: 'rose' },
+            { id: 'ux' as Section, label: '🧭 UX & Bedienbarkeit', color: 'cyan' },
+            { id: 'roadmap' as Section, label: '🗺️ Roadmap & Risiken', color: 'lime' },
           ].map((tab) => (
             <button
               key={tab.id}
@@ -52,14 +60,23 @@ function App() {
                 backgroundColor: tab.color === 'amber' ? 'rgba(245,158,11,0.15)' :
                   tab.color === 'blue' ? 'rgba(59,130,246,0.15)' :
                   tab.color === 'purple' ? 'rgba(168,85,247,0.15)' :
+                  tab.color === 'rose' ? 'rgba(244,63,94,0.15)' :
+                  tab.color === 'cyan' ? 'rgba(6,182,212,0.15)' :
+                  tab.color === 'lime' ? 'rgba(132,204,22,0.15)' :
                   'rgba(34,197,94,0.15)',
                 borderColor: tab.color === 'amber' ? 'rgba(245,158,11,0.5)' :
                   tab.color === 'blue' ? 'rgba(59,130,246,0.5)' :
                   tab.color === 'purple' ? 'rgba(168,85,247,0.5)' :
+                  tab.color === 'rose' ? 'rgba(244,63,94,0.5)' :
+                  tab.color === 'cyan' ? 'rgba(6,182,212,0.5)' :
+                  tab.color === 'lime' ? 'rgba(132,204,22,0.5)' :
                   'rgba(34,197,94,0.5)',
                 color: tab.color === 'amber' ? '#fbbf24' :
                   tab.color === 'blue' ? '#93c5fd' :
                   tab.color === 'purple' ? '#c084fc' :
+                  tab.color === 'rose' ? '#fda4af' :
+                  tab.color === 'cyan' ? '#67e8f9' :
+                  tab.color === 'lime' ? '#bef264' :
                   '#86efac',
               } : {}}
             >
@@ -75,6 +92,9 @@ function App() {
         {activeSection === 'physics' && <PhysicsSection />}
         {activeSection === 'game-logic' && <GameLogicSection />}
         {activeSection === 'architecture' && <ArchitectureSection />}
+        {activeSection === 'graphics' && <GraphicsSection />}
+        {activeSection === 'ux' && <UXSection />}
+        {activeSection === 'roadmap' && <RoadmapSection />}
       </main>
 
       {/* Footer */}
@@ -394,6 +414,230 @@ function ArchitectureSection() {
   )
 }
 
+// ═══════════════════════════════════════════════════════════
+// NEU (Recherche-Runde 2): Grafik-Konzept, UX, Roadmap
+// Details: docs/RESEARCH.md & docs/PLAN.md
+// ═══════════════════════════════════════════════════════════
+
+function GraphicsSection() {
+  return (
+    <div className="space-y-6">
+      <SectionHeader
+        title="🎨 Grafik-Konzept"
+        subtitle="Schwerpunkt 1 — so wird der Klon visuell überzeugend"
+        color="rose"
+      />
+
+      <div className="grid md:grid-cols-2 gap-6">
+        <Card title="Art Direction: 'Poliert-Cartoon'" color="rose">
+          <ul className="space-y-2 text-sm text-gray-400">
+            <li>• Gesättigte Palette, weiche Schatten, Outlines an Würmern/Waffen</li>
+            <li>• Teamfarben <strong className="text-rose-300">farbschwächentauglich</strong>: Blau / Orange / Violett / Gelb</li>
+            <li>• Stil via Phaser <code className="text-rose-300">Graphics</code> + prozedurale Texturen → MVP ohne Asset-Blocker; später optional Hand-Sprites</li>
+            <li>• ⚠️ Kein Kopieren von Team17-Assets (Urheberrecht) — eigener Look, eigener Name</li>
+          </ul>
+        </Card>
+
+        <Card title="Parallax-Bühne (Ebenen)" color="rose">
+          <ol className="space-y-1 text-sm text-gray-400 list-decimal list-inside">
+            <li>Himmel-Gradient + Sonne/Mond</li>
+            <li>Wolken (Faktor 0.2, driftend)</li>
+            <li>Ferne Berge (0.4, Dunst-Tint)</li>
+            <li>Terrain (1.0) + Scorch-Layer + Grasrand</li>
+            <li>Würmer / Projektile / Kisten</li>
+            <li>Animierte Wasserlinie mit Glow</li>
+            <li>Partikel (additiv) → PostFX → HUD</li>
+          </ol>
+        </Card>
+
+        <Card title="Terrain-Rendering" color="rose">
+          <ul className="space-y-2 text-sm text-gray-400">
+            <li>• Erdtextur prozedural (Noise, 3 Brauntöne), 3-px-Grasrand hell/dunkel</li>
+            <li>• Schattierung aus Höhenkanten-Normalen → plastische Klippen</li>
+            <li>• Krater: zweiter dunkler <strong>Scorch-Ring</strong> (eigene RenderTexture, multiplikativ getintet)</li>
+            <li>• Welt 1600×900 px, Buffer 1:1; Low-End-Flag: halbe Auflösung</li>
+          </ul>
+        </Card>
+
+        <Card title="Explosions-Choreografie (≥3 Feedback-Kanäle!)" color="rose">
+          <ul className="space-y-2 text-sm text-gray-400">
+            <li>• Additiver Blitz-Glow + Rauchschwaden + Erdkrümel (Gravity-Particles mit Terrain-Bounce)</li>
+            <li>• <code className="text-rose-300">cameras.main.shake()</code> + kurzer Hit-Stop (timeScale-Puls)</li>
+            <li>• Damage-Numbers als Tween-Text, Grabstein-Animation beim Kill</li>
+            <li>• Phaser-3.90-FX: Glow / Shadow / Vignette für Film-Look</li>
+          </ul>
+        </Card>
+
+        <Card title="Wurm-Animationen (Spritesheets)" color="rose">
+          <p className="text-sm text-gray-400 mb-2">Je 6–8 Frames:</p>
+          <div className="flex flex-wrap gap-2 text-xs">
+            {['idle (Atmen)', 'walk', 'jump', 'fall', 'aim', 'fire (Recoil)', 'dig', 'hit/flinch', 'death (Wirbel)', 'drown'].map(a => (
+              <span key={a} className="px-2 py-1 bg-rose-500/10 border border-rose-500/30 rounded text-rose-300">{a}</span>
+            ))}
+          </div>
+        </Card>
+
+        <Card title="Auflösung & Skalierung" color="rose">
+          <pre className="text-xs bg-gray-900 p-3 rounded overflow-x-auto text-rose-300">{`scale: {
+  mode: Phaser.Scale.FIT,
+  autoCenter: Phaser.Scale.CENTER_BOTH
+},
+render: { antialias: true } // oder pixelArt: true`}</pre>
+          <p className="text-sm text-gray-400 mt-2">Viewport 1280×720 → auf jedem Display knackig; Abnahme: konstant 60 FPS auf Mittelklasse-Hardware.</p>
+        </Card>
+      </div>
+
+      <div className="bg-rose-500/5 border border-rose-500/20 rounded-xl p-6">
+        <h3 className="text-rose-300 font-bold mb-2">🔬 Recherche-Facts (verifiziert 2026-10-10)</h3>
+        <ul className="space-y-1 text-sm text-gray-400">
+          <li>• npm latest = <strong>Phaser 4.2.1</strong>; empfohlene stabile Version = <strong>Phaser 3.90.0</strong> (TS-Typen inklusive)</li>
+          <li>• WebGL-<code>readPixels</code> ist langsam → Kollisionslogik liest NIE die GPU, nur den CPU-Uint8Array-Buffer</li>
+          <li>• Assets: Kenney.nl (CC0), OpenGameArt, jsfxr-generierte SFX → 0 Lizenzrisiko; Audio via WebAudio + Howler-Fallback</li>
+        </ul>
+      </div>
+    </div>
+  )
+}
+
+function UXSection() {
+  return (
+    <div className="space-y-6">
+      <SectionHeader
+        title="🧭 Benutzerfreundlichkeit"
+        subtitle="Schwerpunkt 2 — Steuerung, Information, Onboarding, Barrierefreiheit"
+        color="cyan"
+      />
+
+      <div className="grid md:grid-cols-2 gap-6">
+        <Card title="Input-Matrix" color="cyan">
+          <table className="w-full text-xs text-gray-400">
+            <thead><tr className="text-cyan-300 border-b border-cyan-500/30">
+              <th className="py-1 text-left">Aktion</th><th className="text-left">Maus/Tastatur</th><th className="text-left">Touch</th>
+            </tr></thead>
+            <tbody className="[&_td]:py-1">
+              <tr><td>Zielen</td><td>Mauswinkel + ←/→ fein</td><td>Schleuder-Drag</td></tr>
+              <tr><td>Feuern</td><td>Klick halten=Power, loslassen</td><td>Loslassen</td></tr>
+              <tr><td>Bewegen</td><td>A/D · Leertaste=Sprung</td><td>Buttons ≥48 px</td></tr>
+              <tr><td>Waffe</td><td>1–9 · Q/E · Tab=Waffenrad</td><td>HUD-Icons</td></tr>
+              <tr><td>Sonstiges</td><td>P Pause · H Hilfe · M Mute</td><td>—</td></tr>
+            </tbody>
+          </table>
+        </Card>
+
+        <Card title="Lernhilfe: Flugvorhersage" color="cyan">
+          <ul className="space-y-2 text-sm text-gray-400">
+            <li>• <strong className="text-cyan-300">Trajektorien-Punkte</strong> (erste ~25 % des Flugs) — lehrt Physik in 10 s</li>
+            <li>• Impact-Kreis zeigt Einschlagpunkt am Terrain</li>
+            <li>• Risikoring warnt bei möglicher Selbstexplosion (abschaltbar für Profis)</li>
+          </ul>
+        </Card>
+
+        <Card title="HUD — immer klar: Wer, was, wann?" color="cyan">
+          <ul className="space-y-2 text-sm text-gray-400">
+            <li>• Aktives Team + blinkender Marker über dem dran-seienden Wurm</li>
+            <li>• Runden-Timer als Balken/Ring; letzte 5 s rot pulsierend + Piepton</li>
+            <li>• Nametag + HP-Balken über jedem Wurm (fremde dezent, Hover = detail)</li>
+            <li>• Kamera pans sanft (~0,8 s Ease) statt Sprung — Orientierung bleibt</li>
+          </ul>
+        </Card>
+
+        <Card title="Onboarding & Fehlerkultur" color="cyan">
+          <ul className="space-y-2 text-sm text-gray-400">
+            <li>• Interaktives Tutorial (&lt;60 s, überspringbar): Ziehen → Loslassen → Treffer</li>
+            <li>• Kein Undo (Genre), dafür verlässliche Vorhersage-Tools</li>
+            <li>• Shortcuts-Overlay jederzeit per H; alle Bindings remappbar</li>
+            <li>• Jeder Treffer = Zahl + Sound + Shake + Partikel (nichts passiert lautlos)</li>
+          </ul>
+        </Card>
+
+        <Card title="Barrierefreiheit" color="cyan">
+          <ul className="space-y-2 text-sm text-gray-400">
+            <li>• Reduzierte-Effekte-Modus (Shake ↓, Flash aus) — Epilepsie-Prävention</li>
+            <li>• Farbfehlsichtigkeits-Paletten-Switch, UI-Schrift 100/125/150 %</li>
+            <li>• Vollständig tastenspielbar, Fokus-Indikatoren im Menü</li>
+            <li>• Kontrast aller Texte ≥ 4.5:1 (Outline + Shadow)</li>
+          </ul>
+        </Card>
+
+        <Card title="Abnahmekriterien UX" color="cyan">
+          <ul className="space-y-2 text-sm text-gray-400">
+            <li>☑ Genre-Neuling trifft den ersten Schuss im Tutorial</li>
+            <li>☑ Nie unklar, wer dran ist / was klickbar ist</li>
+            <li>☑ Zug-Zeit ≤ 30 s; alles Wichtige ohne Menü erreichbar</li>
+            <li>☑ Think-Aloud-Test mit 2 externen Nutzern dokumentiert</li>
+          </ul>
+        </Card>
+      </div>
+    </div>
+  )
+}
+
+function RoadmapSection() {
+  const milestones = [
+    { id: 'M0', name: 'Setup', desc: 'phaser@^3.90.0 installieren, TS/Vite-Integration, leere GameScene', done: false },
+    { id: 'M1', name: 'Terrain-Kern', desc: 'Bitmap-Model + Heightmap, Generierung, dig(), Raycast, Tests', done: false },
+    { id: 'M2', name: 'Wurm & Bewegung', desc: 'Fußsensor, Gehen/Springen/Fall, Fallschaden, Kamera', done: false },
+    { id: 'M3', name: 'Projektile & Explosion', desc: 'Bazooka/Granate, Flugintegration, Krater, Rückstoß, Wasser', done: false },
+    { id: 'M4', name: 'Rundenlogik & HUD', desc: 'TurnManager, Timer, UIScene, Win-Screen, Hotseat-Menü', done: false },
+    { id: 'M5', name: '★ Grafik-Polish', desc: 'Parallax, Scorch, Partikel, PostFX, Anims, Sound', done: false },
+    { id: 'M6', name: '★ UX-Polish', desc: 'Flugvorhersage, Tutorial, A11y, Touch-Pfad, Remapping', done: false },
+    { id: 'M7', name: 'Stretch', desc: 'Wind, Ninja Rope, mehr Waffen, CPU-KI, Map-Varianten', done: false },
+  ]
+  return (
+    <div className="space-y-6">
+      <SectionHeader
+        title="🗺️ Roadmap, Risiken & offene Entscheidungen"
+        subtitle="Reihenfolge mit Abnahme-Demos pro Meilenstein · Vollversion in docs/PLAN.md"
+        color="lime"
+      />
+
+      <div className="grid md:grid-cols-2 gap-3">
+        {milestones.map((m) => (
+          <div key={m.id} className="bg-gray-900 border border-lime-500/20 rounded-xl p-4 flex gap-4 items-start">
+            <div className="shrink-0 w-10 h-10 rounded-lg bg-lime-500/10 border border-lime-500/40 flex items-center justify-center text-lime-300 font-bold text-sm">{m.id}</div>
+            <div>
+              <h4 className="text-lime-300 font-bold text-sm">{m.name}</h4>
+              <p className="text-xs text-gray-400 mt-1">{m.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-6">
+        <Card title="⚠️ Top-Risiken & Gegenmaßnahmen" color="lime">
+          <ul className="space-y-2 text-sm text-gray-400">
+            <li>• <strong>Terrain-Desync</strong> (Bild ≠ Kollision) → eine autoritative Quelle (Model), View redrawed nur Dirty-Rects</li>
+            <li>• <strong>Doppelphysik</strong> Matter vs. Custom → klar getrennt: Terrain/Würmer/Projektile custom, Seil/Kisten ggf. Matter</li>
+            <li>• <strong>Perf auf Intel-IGP</strong> → Budgets (≤800 Partikel), Dirty-Region-Redraw, Dev-FPS-Overlay</li>
+            <li>• <strong>Scope-Creep</strong> → MVP = 3 Waffen, kein Netcode; Stretchliste einfrieren</li>
+            <li>• <strong>Lizenzen</strong> → CC0-Assetliste + jsfxr-SFX-Fallback</li>
+          </ul>
+        </Card>
+
+        <Card title="❓ Offene Entscheidungen (bitte wählen)" color="lime">
+          <ol className="space-y-2 text-sm text-gray-400 list-decimal list-inside">
+            <li>Look: Cartoon-Vektor <em>(empfohlen)</em> vs. Hand-Sprites?</li>
+            <li>Renderer: WebGL-first <em>(empfohlen)</em> vs. Canvas erzwingen?</li>
+            <li>Matter.js nur für Rope/Kisten <em>(empfohlen)</em> oder ganz weg?</li>
+            <li>Gamesprache: Deutsch / Englisch / i18n ab Werk?</li>
+            <li>Spiel als eigener Entry Point <code>/game</code>, Doku-Seite bleibt?</li>
+            <li>Desktop zuerst, Touch in M6 <em>(empfohlen)</em>?</li>
+          </ol>
+        </Card>
+      </div>
+
+      <div className="bg-gradient-to-r from-lime-500/10 to-green-500/10 border border-lime-500/30 rounded-xl p-8 text-center">
+        <div className="text-4xl mb-4">📐</div>
+        <h2 className="text-2xl font-bold text-lime-300 mb-2">Planung steht — noch kein Spiel gebaut</h2>
+        <p className="text-gray-400 max-w-2xl mx-auto">
+          Bestätige die 6 offenen Entscheidungen (oder sage „nimm deine Empfehlungen“),
+          dann starte ich in der nächsten Runde mit <strong className="text-lime-300">M0 + M1 (Terrain-Kern)</strong>.
+        </p>
+      </div>
+    </div>
+  )
+}
+
 // Reusable Components
 function SectionHeader({ title, subtitle, color }: { title: string; subtitle: string; color: string }) {
   const colorMap: Record<string, string> = {
@@ -401,6 +645,9 @@ function SectionHeader({ title, subtitle, color }: { title: string; subtitle: st
     blue: 'text-blue-300 border-blue-500/30',
     purple: 'text-purple-300 border-purple-500/30',
     green: 'text-green-300 border-green-500/30',
+    rose: 'text-rose-300 border-rose-500/30',
+    cyan: 'text-cyan-300 border-cyan-500/30',
+    lime: 'text-lime-300 border-lime-500/30',
   }
   return (
     <div className={`border-b ${colorMap[color]} pb-4 mb-6`}>
@@ -416,12 +663,18 @@ function Card({ title, children, color }: { title: string; children: React.React
     blue: 'border-blue-500/20',
     purple: 'border-purple-500/20',
     green: 'border-green-500/20',
+    rose: 'border-rose-500/20',
+    cyan: 'border-cyan-500/20',
+    lime: 'border-lime-500/20',
   }
   const titleColors: Record<string, string> = {
     amber: 'text-amber-300',
     blue: 'text-blue-300',
     purple: 'text-purple-300',
     green: 'text-green-300',
+    rose: 'text-rose-300',
+    cyan: 'text-cyan-300',
+    lime: 'text-lime-300',
   }
   return (
     <div className={`bg-gray-900 border ${borderColors[color]} rounded-xl p-5`}>
